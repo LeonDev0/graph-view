@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>graph-view</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <button onclick="cambiarTipo('bar')">Barras</button>
+        <button onclick="cambiarTipo('line')">Líneas</button>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <label for="studentSelector">Selecciona un estudiante (ID):</label>
+        <input type="number" id="studentSelector" value="1" min="1" max="6">
+        <button onclick="cambiarEstudiante()">Ver Notas</button>
+        <button onclick="descargarReporte()">Descargar Gráfica (PNG)</button>
+        </select>
+    </div>
+    <h2 style="text-align: center;" id="tituloEstudiante"> Notas de:</h2>
+    <canvas id="graphCanvas" width="100" height="32"></canvas>
+</body>
+<script src="index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</html>
