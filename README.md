@@ -41,7 +41,7 @@ Graph-view es una aplicación web full-stack para visualizar rendimiento académ
 Clona el repositorio e instala las dependencias:
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone (https://leondev0.github.io/graph-view/)
 cd your-repo-name
 npm install
 ```
