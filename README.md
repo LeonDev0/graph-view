@@ -1,48 +1,90 @@
 # Student Analytics Dashboard
 
-Graph-view is a full-stack web application designed for academic data visualization. This project demonstrates the transition from a flat data model to a **relational database architecture**, allowing dynamic tracking of student performance across multiple subjects.
+Graph-view es una aplicación web full-stack para visualizar rendimiento académico y explorar datos tabulares externos. El proyecto utiliza una base de datos relacional para las notas y un visualizador en el navegador para archivos CSV, XLS y XLSX.
 
-## Features
-* **Relational Database:** Implemented with SQLite, featuring 3 linked tables (`Students`, `Subjects`, `Grades`) with Foreign Key constraints.
-* **Dynamic API:** A Node.js/Express backend that serves student-specific data via REST endpoints.
-* **Interactive Visualizations:** Powered by **Chart.js**, with bars that change color based on the student's average (Red for <70, Blue for standard, Gold for >90).
-* **Data Export:** Capability to download the current chart as a PNG image for reporting.
-* **Modern UI:** A clean, dark-mode interface focused on user experience.
+## Funcionalidades
 
-##  Tech Stack
-* **Frontend:** HTML5, CSS3, JavaScript (ES6+), Chart.js.
-* **Backend:** Node.js, Express.js.
-* **Database:** SQLite3.
+* **Base de datos relacional:** SQLite con tablas relacionadas de estudiantes, materias y calificaciones.
+* **API dinámica:** Backend Node.js/Express para consultar las notas de un estudiante.
+* **Gráficas interactivas:** Chart.js permite cambiar entre barras y líneas.
+* **Alertas visuales de rendimiento:**
+  * Rojo para una materia o promedio inferior a `60.00`.
+  * Naranja para una materia o promedio inferior a `75.00`.
+  * Verde azulado para valores iguales o superiores a `75.00`.
+* **Carga de datos externos:** Lectura local de archivos CSV, XLS y XLSX mediante SheetJS.
+* **Limpieza y transformación:** Normalización de encabezados y valores, conversión numérica segura, filtros, ordenamiento y agrupación por categoría o prefijo.
+* **Zoom para datasets externos:** Controles de acercar, alejar y restablecer la vista para explorar conjuntos con muchas filas sin perder legibilidad.
+* **Exportación PNG:** Descarga del gráfico externo activo o, como alternativa, del gráfico de estudiantes con un fondo sólido.
+* **Interfaz responsive:** Diseño oscuro, controles accesibles y adaptación a pantallas pequeñas.
 
-## Project Structure
+## Stack tecnológico
+
+* **Frontend:** HTML5, CSS3 y JavaScript ES6+.
+* **Visualización:** Chart.js.
+* **Lectura de archivos:** SheetJS/XLSX.
+* **Backend:** Node.js y Express.js.
+* **Base de datos:** SQLite3.
+
+## Estructura principal
+
 ```text
-├── db.js             # Database schema and Seeding logic
-├── index.js          # Express server and API routes
-├── index.html        # Dashboard interface
-├── styles.js         # Frontend logic and Chart.js configuration
-├── styles.css        # Custom styling (Dark Mode)
-├── .gitignore        # Keeps the repo clean (ignores node_modules/ and .db)
-└── package.json      # Project dependencies and scripts
+├── db.js             # Esquema y datos iniciales de SQLite
+├── index.js          # API existente y lógica del visualizador frontend
+├── index.html        # Interfaz del dashboard
+├── styles.css        # Estilos del dashboard
+├── package.json      # Dependencias y scripts
+└── README.md         # Documentación del proyecto
+```
 
- Setup & Installation
-Clone the repository:
+## Instalación y ejecución
 
-Bash
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-Install dependencies:
+Clona el repositorio e instala las dependencias:
 
-Bash
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
 npm install
-Initialize Data:
-Ensure the seedDatabase() function is called in your setup to generate the initial records.
+```
 
-Run the application:
+Inicializa los datos mediante la lógica de seed del proyecto y ejecuta la aplicación:
 
-Bash
+```bash
 node index.js
-Access: Open http://localhost:3000 in your browser.
+```
 
- Key Learnings
-This project served as a deep dive into SQL Relational Mapping. I learned how to move away from storing everything in a single table, instead using JOINs to connect entities. I also focused on bridging the gap between a persistent database and a reactive frontend.
+Abre <http://localhost:3000> en el navegador.
 
-Developed by LeoDEV
+> El script `start` configurado actualmente utiliza Nodemon con `db.js`. Para el uso diario, confirma que el comando de inicio apunte al archivo del servidor que expone la API.
+
+## Uso del visualizador externo
+
+1. Selecciona un archivo CSV, XLS o XLSX.
+2. Elige la columna para el eje X y la columna numérica para el eje Y.
+3. Usa el ordenamiento ascendente o descendente según el valor Y.
+4. Selecciona una categoría para filtrar o activa la agrupación automática.
+5. Utiliza **Acercar**, **Alejar** o **Restablecer** para revisar datasets grandes.
+6. Descarga el gráfico activo en formato PNG.
+
+Los archivos se procesan localmente en el navegador. Aun así, conviene aplicar límites de tamaño y validación de tipo también en el servidor si en el futuro los archivos se envían a una API.
+
+## Seguridad
+
+La página incluye políticas de contenido, permisos y referencia, además de restricciones contra incrustación en frames, objetos no autorizados y MIME sniffing. Para producción:
+
+* Sirve la aplicación exclusivamente mediante HTTPS.
+* Envía estas políticas como cabeceras HTTP desde el servidor; las etiquetas HTML son una defensa complementaria.
+* Sustituye el origen de desarrollo `http://localhost:3000` por el dominio HTTPS real.
+* Hospeda las librerías externas o añade hashes SRI verificables para los recursos CDN.
+* Valida tamaño, extensión y contenido de cualquier archivo recibido en el backend.
+* Mantén consultas SQL parametrizadas y añade autenticación/autorización para datos académicos.
+* Evita exponer la base de datos SQLite directamente al cliente.
+
+## Uso de Copilot
+
+GitHub Copilot ha sido utilizado como agente de corrección de código y como apoyo prioritario en la corrección y refactorización del visualizador de datos externos. Su intervención se centró en la limpieza de datos, generación de gráficas, filtros, agrupación, zoom, exportación PNG y revisión de la documentación.
+
+## Aprendizajes
+
+Este proyecto demuestra cómo pasar de un modelo plano a una estructura relacional y cómo conectar una API con visualizaciones interactivas. También muestra la importancia de normalizar datos importados, ofrecer controles para datasets grandes y documentar las medidas de seguridad de una aplicación que maneja información académica.
+
+Desarrollado por LeoDEV.

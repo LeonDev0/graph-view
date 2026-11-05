@@ -1,0 +1,372 @@
+:root {
+    color-scheme: dark;
+    --background: #080d18;
+    --surface: #111a2b;
+    --surface-raised: #17243a;
+    --border: #263650;
+    --text: #edf4ff;
+    --muted: #91a1bb;
+    --accent: #55d6be;
+    --accent-strong: #2bb59d;
+    --blue: #70a7ff;
+    --shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    margin: 0;
+    background:
+        radial-gradient(circle at 85% 0%, rgba(54, 100, 160, 0.18), transparent 34rem),
+        var(--background);
+    color: var(--text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.5;
+}
+
+.dashboard-shell {
+    width: min(1120px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 3.5rem 0 5rem;
+}
+
+.page-header {
+    max-width: 680px;
+    margin-bottom: 2rem;
+}
+
+.eyebrow,
+.section-kicker {
+    margin: 0 0 0.55rem;
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+}
+
+h1,
+h2,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 0.5rem;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    letter-spacing: -0.05em;
+    line-height: 1;
+}
+
+h2 {
+    margin-bottom: 0;
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    letter-spacing: -0.025em;
+}
+
+.page-intro,
+.section-description {
+    color: var(--muted);
+}
+
+.page-intro {
+    max-width: 580px;
+    margin-bottom: 0;
+    font-size: 1.05rem;
+}
+
+.dashboard-section {
+    margin-top: 1.25rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: rgba(17, 26, 43, 0.9);
+    box-shadow: var(--shadow);
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.status-badge,
+.file-type {
+    flex-shrink: 0;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.status-badge {
+    color: var(--accent);
+}
+
+.status-badge span {
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-right: 0.3rem;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0.2rem rgba(85, 214, 190, 0.12);
+}
+
+.student-status {
+    min-height: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.controls,
+.mapping-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+label {
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+input,
+select,
+button {
+    font: inherit;
+}
+
+input[type="number"],
+select {
+    min-height: 2.5rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 0.45rem;
+    background: var(--surface-raised);
+    color: var(--text);
+}
+
+input[type="number"] {
+    width: 5rem;
+}
+
+.button {
+    min-height: 2.5rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid transparent;
+    border-radius: 0.45rem;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 700;
+    transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+}
+
+.button-primary {
+    background: var(--accent);
+    color: #07151a;
+}
+
+.button-primary:hover {
+    background: #75e8d2;
+}
+
+.button-secondary {
+    border-color: var(--border);
+    background: var(--surface-raised);
+    color: var(--text);
+}
+
+.button-secondary:hover,
+.button-quiet:hover {
+    border-color: var(--blue);
+}
+
+.button-quiet {
+    border-color: transparent;
+    background: transparent;
+    color: var(--blue);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.file-drop:focus-within {
+    outline: 3px solid rgba(112, 167, 255, 0.45);
+    outline-offset: 2px;
+}
+
+.chart-frame {
+    position: relative;
+    min-height: 280px;
+    margin-top: 1.75rem;
+    padding: 1rem;
+    border: 1px solid rgba(38, 54, 80, 0.7);
+    border-radius: 0.7rem;
+    background: rgba(8, 13, 24, 0.42);
+}
+
+canvas {
+    display: block;
+    width: 100% !important;
+    max-height: 420px;
+}
+
+.section-description {
+    margin-bottom: 1.25rem;
+}
+
+.file-drop {
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 28rem);
+    padding: 1rem;
+    border: 1px dashed var(--blue);
+    border-radius: 0.65rem;
+    background: rgba(112, 167, 255, 0.06);
+    cursor: pointer;
+}
+
+.file-selection-row {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.help-button {
+    align-self: center;
+    white-space: nowrap;
+}
+
+.help-panel {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--border);
+    border-radius: 0.65rem;
+    background: rgba(23, 36, 58, 0.72);
+}
+
+.help-panel h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+}
+
+.help-panel dl {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.3fr) 1fr;
+    gap: 0.55rem 1rem;
+    margin: 0;
+}
+
+.help-panel dt {
+    color: var(--text);
+    font-weight: 700;
+}
+
+.help-panel dd {
+    margin: 0;
+    color: var(--muted);
+}
+
+.file-drop-title {
+    color: var(--text);
+    font-weight: 700;
+}
+
+.file-drop-hint,
+.file-help {
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.file-drop-hint {
+    margin-top: 0.2rem;
+}
+
+.file-drop input {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.file-help {
+    flex-basis: 100%;
+    margin: 0;
+}
+
+.mapping-controls {
+    display: none;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+noscript {
+    display: block;
+    padding: 1rem;
+    background: #5a1c2a;
+    color: #ffd5dd;
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .dashboard-shell {
+        padding-top: 2.25rem;
+    }
+
+    .section-heading {
+        flex-direction: column;
+    }
+
+    .controls > * {
+        flex: 1 1 auto;
+    }
+
+    .controls label {
+        flex-basis: 100%;
+    }
+
+    .controls input[type="number"] {
+        flex-basis: 4.5rem;
+    }
+
+    .mapping-controls label {
+        flex-basis: 100%;
+    }
+
+    .mapping-controls select,
+    .mapping-controls .button {
+        width: 100%;
+    }
+
+    .file-selection-row,
+    .file-selection-row .file-drop,
+    .help-button {
+        width: 100%;
+    }
+
+    .help-panel dl {
+        display: block;
+    }
+
+    .help-panel dt {
+        margin-top: 0.75rem;
+    }
+}

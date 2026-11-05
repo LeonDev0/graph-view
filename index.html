@@ -1,27 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>graph-view</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Panel de análisis académico para visualizar notas y datos externos.">
+    <meta name="theme-color" content="#0b1120">
+    <meta name="color-scheme" content="dark">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' http://localhost:3000; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+    <title>Graph-View | Panel académico</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div style="text-align: center; margin-bottom: 20px;">
-        <button onclick="cambiarTipo('bar')">Barras</button>
-        <button onclick="cambiarTipo('line')">Líneas</button>
-    </div>
+    <main class="dashboard-shell">
+        <header class="page-header">
+            <p class="eyebrow">GRAPH-VIEW / ANALÍTICA</p>
+            <h1>Panel académico</h1>
+            <p class="page-intro">Explora el rendimiento de estudiantes y convierte tus archivos en información útil.</p>
+        </header>
 
-    <div style="text-align: center; margin-bottom: 20px;">
-        <label for="studentSelector">Selecciona un estudiante (ID):</label>
-        <input type="number" id="studentSelector" value="1" min="1" max="6">
-        <button onclick="cambiarEstudiante()">Ver Notas</button>
-        <button onclick="descargarReporte()">Descargar Gráfica (PNG)</button>
-        </select>
-    </div>
-    <h2 style="text-align: center;" id="tituloEstudiante"> Notas de:</h2>
-    <canvas id="graphCanvas" width="100" height="32"></canvas>
+        <section class="dashboard-section" aria-labelledby="student-section-title">
+            <div class="section-heading">
+                <div>
+                    <p class="section-kicker">01 / BASE DE DATOS DE EJEMPLO</p>
+                    <h2 id="student-section-title">Rendimiento del estudiante</h2>
+                </div>
+                <span class="status-badge"><span aria-hidden="true"></span> Datos en vivo</span>
+            </div>
+            <p id="tituloEstudiante" class="student-status" aria-live="polite">Cargando notas...</p>
+
+            <div class="controls">
+            <label for="studentSelector">Estudiante (ID):</label>
+                <input type="number" id="studentSelector" value="1" min="1" max="10" inputmode="numeric" aria-label="ID del estudiante">
+                <button type="button" class="button button-primary" onclick="cambiarEstudiante()">Ver notas</button>
+                <button type="button" class="button button-secondary" onclick="cambiarTipo('bar')">Barras</button>
+                <button type="button" class="button button-secondary" onclick="cambiarTipo('line')">Líneas</button>
+                <button type="button" class="button button-quiet" onclick="descargarReporte()">Descargar PNG</button>
+            </div>
+
+            <div class="chart-frame">
+                <canvas id="graphCanvas" aria-label="Gráfica de notas del estudiante" role="img"></canvas>
+            </div>
+        </section>
+
+        <section class="dashboard-section" aria-labelledby="external-section-title">
+            <div class="section-heading">
+                <div>
+                    <p class="section-kicker">02 / GENERADOR DE GRAFICAS</p>
+                    <h2 id="external-section-title">Visualizador de datos externos</h2>
+                </div>
+                <span class="file-type">CSV · XLS · XLSX</span>
+            </div>
+            <p class="section-description">Carga un archivo local para comparar dos columnas en una gráfica por ejemplo "titulo" y "precio".</p>
+
+            <div class="upload-controls">
+                <div class="file-selection-row">
+                    <label class="file-drop" for="fileInput">
+                        <span class="file-drop-title">Selecciona un archivo</span>
+                        <span class="file-drop-hint">Los datos se procesan en tu navegador</span>
+                        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" aria-describedby="file-help">
+                    </label>
+                    <button type="button" id="helpButton" class="button button-secondary help-button" aria-expanded="false" aria-controls="helpPanel">
+                        ¿Cómo usar los controles?
+                    </button>
+                </div>
+                <p id="file-help" class="file-help">Formatos permitidos: CSV, XLS y XLSX.</p>
+                <div id="helpPanel" class="help-panel" hidden>
+                    <h3>Guía rápida</h3>
+                    <dl>
+                        <dt>Eje X</dt>
+                        <dd>Es el eje horizontal. Selecciona un campo descriptivo o identificador, como Nombre, SKU, ID o Código.</dd>
+                        <dt>Eje Y</dt>
+                        <dd>Es el eje vertical y necesita valores numéricos, como Precio, Stock, Ventas o Puntuación.</dd>
+                        <dt>Ordenar</dt>
+                        <dd>Usa Menor a mayor o Mayor a menor para ordenar por el eje Y, o conserva el orden original del archivo.</dd>
+                        <dt>Categoría, filtrar y agrupar</dt>
+                        <dd>Selecciona una columna con categorías repetidas para segmentar los datos o agruparlos y obtener un promedio por categoría.</dd>
+                        <dt>Zoom y desplazamiento</dt>
+                        <dd>Usa los botones de lupa para acercar o alejar la vista. También puedes desplazarte horizontalmente sobre el eje X y restablecer la vista.</dd>
+                    </dl>
+                </div>
+
+                <div id="mappingControls" class="mapping-controls">
+                    <label for="selectX">Eje X:</label>
+                    <select id="selectX"></select>
+                    <label for="selectY">Eje Y:</label>
+                    <select id="selectY"></select>
+                    <label for="sortDirection">Ordenar:</label>
+                    <select id="sortDirection">
+                        <option value="none">Orden original</option>
+                        <option value="asc">Menor a mayor</option>
+                        <option value="desc">Mayor a menor</option>
+                    </select>
+                    <label for="selectCategory">Categoría:</label>
+                    <select id="selectCategory"></select>
+                    <label for="categoryFilter">Filtrar:</label>
+                    <select id="categoryFilter"></select>
+                    <label class="checkbox-control" for="groupByCategory">
+                        <input type="checkbox" id="groupByCategory">
+                        Agrupar categorías
+                    </label>
+                    <button type="button" class="button button-primary" onclick="generarGraficaDesdeExcel()">Generar gráfica</button>
+                    <button type="button" id="downloadExternalButton" class="button button-secondary" onclick="descargarReporte('externalCanvas')">Descargar PNG</button>
+                </div>
+            </div>
+
+            <div class="chart-frame">
+                <canvas id="externalCanvas" aria-label="Gráfica de datos externos" role="img"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <noscript>Este panel necesita JavaScript activado para mostrar la gráfica</noscript>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
 </body>
-<script src="index.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </html>

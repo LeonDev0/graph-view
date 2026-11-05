@@ -4,7 +4,8 @@ import { open } from 'sqlite';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+//nota, aqui yace el server js, en caso de algun error borrar school.db 
+// y descomentar await.db, en la terminal correr db.js y listo :3
 const app = express();
 app.use(cors());
 
@@ -45,7 +46,7 @@ async function seedDatabase() {
             );
         `);
 
-        // 2. Insertar Estudiantes
+        
         await db.run(`INSERT INTO Students (id, name, surname) VALUES 
             (1, 'Luis', 'Garcia'),
             (2, 'Sofia', 'Martinez'),
@@ -54,7 +55,7 @@ async function seedDatabase() {
             (5, 'Carlos', 'Ruiz'),
             (6, 'Ana', 'Perez')`);
 
-        // 3. Insertar Materias
+        
         await db.run(`INSERT INTO Subjects (Subject_id, subject_Name) VALUES 
             (1, 'Math'), 
             (2, 'Literature'), 
@@ -62,7 +63,7 @@ async function seedDatabase() {
             (4, 'History'), 
             (5, 'Computing')`);
 
-        // 4. Insertar Notas 
+        
         await db.run(`INSERT INTO Grades (student_id, subject_id, score) VALUES
             -- Luis (ID 1)
             (1, 1, 85.5), (1, 2, 90.5), (1, 3, 75.0), (1, 4, 95.5), (1, 5, 70.0),
@@ -125,5 +126,5 @@ app.get('/api/student/:id/grades', async (req, res) => {
 const PORT = 3000;
 app.listen(PORT, async () => {
     console.log(`Servidor en http://localhost:${PORT}`);
-    // await seedDatabase(); 
+    //await seedDatabase(); 
 });
