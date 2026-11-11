@@ -1,6 +1,7 @@
 # Student Analytics Dashboard
 
 Graph-view es una aplicación web full-stack para visualizar rendimiento académico y explorar datos tabulares externos. El proyecto utiliza una base de datos relacional para las notas y un visualizador en el navegador para archivos CSV, XLS y XLSX.
+link de github pages: <https://leondev0.github.io/graph-view/>
 
 ## Funcionalidades
 
